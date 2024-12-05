@@ -10,14 +10,7 @@ class Game
   end
 
   def add(column)
-    row = 5
-    while row >= 0
-      if @board.positions[row][column].nil?
-        @board.positions[row][column] = @players[@active_player]
-        return
-      end
-      row -= 1
-    end
+    board.add(column, @players[active_player])
   end
 
   def change_player
@@ -28,20 +21,14 @@ class Game
                      end
   end
 
-  def column_full?(column)
-    return false if @board.positions[0][column].nil?
-
-    true
-  end
-
   def win?
     player = @players[active_player]
 
     # horizontal check
     for j in 0..3 do
       for i in 0..5 do
-        if @board.positions[i][j] == player && @board.positions[i][j + 1] == player &&
-           @board.positions[i][j + 2] == player && @board.positions[i][j + 3] == player
+        if @board.symbol_at(i, j) == player && @board.symbol_at(i, j + 1) == player &&
+           @board.symbol_at(i, j + 2) == player && @board.symbol_at(i, j + 3) == player
           return true
         end
       end
@@ -50,7 +37,8 @@ class Game
     # vertical check
     for j in 0..6 do
       for i in 0..2 do
-        if @board.positions[i][j] == @players[@active_player] && @board.positions[i + 1][j] == @players[@active_player] && @board.positions[i + 2][j] == @players[@active_player] && @board.positions[i + 3][j] == @players[@active_player]
+        if @board.symbol_at(i, j) == player && @board.symbol_at(i + 1, j) == player &&
+           @board.symbol_at(i + 2, j) == player && @board.symbol_at(i + 3, j) == player
           return true
         end
       end
@@ -59,7 +47,8 @@ class Game
     # ascending diagonal check
     for j in 0..3 do
       for i in 3..5 do
-        if @board.positions[i][j] == @players[@active_player] && @board.positions[i - 1][j + 1] == @players[@active_player] && @board.positions[i - 2][j + 2] == @players[@active_player] && @board.positions[i - 3][j + 3] == @players[@active_player]
+        if @board.symbol_at(i, j) == player && @board.symbol_at(i - 1, j + 1) == player &&
+           @board.symbol_at(i - 2, j + 2) == player && @board.symbol_at(i - 3, j + 3) == player
           return true
         end
       end
@@ -68,7 +57,8 @@ class Game
     # descending diagonal check
     for j in 3..6 do
       for i in 3..5 do
-        if @board.positions[i][j] == @players[@active_player] && @board.positions[i - 1][j - 1] == @players[@active_player] && @board.positions[i - 2][j - 2] == @players[@active_player] && @board.positions[i - 3][j - 3] == @players[@active_player]
+        if @board.symbol_at(i, j) == player && @board.symbol_at(i - 1, j - 1) == player &&
+           @board.symbol_at(i - 2, j - 2) == player && @board.symbol_at(i - 3, j - 3) == player
           return true
         end
       end
@@ -76,18 +66,8 @@ class Game
     false
   end
 
-  def get_input
-    puts 'Please enter the column of your choice'
-    column = gets.chomp.to_i
-    until valid?(column)
-      puts 'Please enter a valid column number'
-      column = gets.chomp.to_i
-    end
-    column
-  end
-
   def valid?(number)
-    if (number in 0..6) && !column_full?(number)
+    if (number in 0..6) && !@board.column_full?(number)
       return true
     end
 

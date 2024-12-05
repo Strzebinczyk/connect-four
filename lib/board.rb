@@ -1,24 +1,26 @@
 class Board
-  attr_accessor :positions
+  attr_reader :positions
 
   def initialize
     @positions = Array.new(6) { Array.new(7, nil) }
   end
 
-  def display_board
-    puts '+    +    +    +    +    +    +    +'
-    @positions.each_index do |row|
-      @positions[row].each_index do |column|
-        if @positions[row][column].nil?
-          print '|    '
-        else
-          print "| #{@positions[row][column]}  "
-        end
+  def add(column, symbol)
+    row = 5
+    while row >= 0
+      if @positions[row][column].nil?
+        @positions[row][column] = symbol
+        return
       end
-      puts '|'
-      puts '+----+----+----+----+----+----+----+'
+      row -= 1
     end
-    (0..6).each { |number| print "  #{number}  " }
-    puts ''
+  end
+
+  def column_full?(column)
+    !positions[0][column].nil?
+  end
+
+  def symbol_at(row, column)
+    @positions[row][column]
   end
 end

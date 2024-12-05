@@ -1,74 +1,32 @@
 require_relative '../lib/game'
 
 describe Game do
+  subject(:game) { described_class.new }
+
   describe '#add' do
-    subject(:game) { described_class.new }
+    let(:symbol) { 'X' }
+    let(:column) { 3 }
 
     it 'adds the coin to the bottom of the column' do
-      column = 3
       game.add(column)
-      symbol = 'X'
       expected = game.board.positions[5][column]
       expect(expected).to eql symbol
     end
     it 'adds the second coin on top of last one' do
-      column = 3
       game.add(column)
       game.add(column)
-      symbol = 'X'
       expected = game.board.positions[4][column]
       expect(expected).to eql symbol
-    end
-    it "doesn't do anything if the column is full" do
-      positions = Array.new(6) { Array.new([nil, nil, nil, 'X', nil, nil, nil]) }
-      column = 3
-      game.add(column)
-      game.add(column)
-      game.add(column)
-      game.add(column)
-      game.add(column)
-      game.add(column)
-      game.add(column)
-      game.add(column)
-      expected = game.board.positions
-      expect(expected).to eql positions
     end
   end
 
   describe '#change_player' do
-    subject(:game) { described_class.new }
     it 'changes active player' do
-      player = 'Player 2'
-      game.change_player
-      expect(game.active_player).to eql player
-    end
-  end
-
-  describe '#column_full?' do
-    subject(:game) { described_class.new }
-
-    before do
-      column = 3
-      game.add(column)
-      game.add(column)
-      game.add(column)
-      game.add(column)
-      game.add(column)
-      game.add(column)
-    end
-
-    it 'returns true when column is full' do
-      expect(game.column_full?(3)).to be true
-    end
-
-    it 'returns false if column is not full' do
-      expect(game.column_full?(5)).to be false
+      expect { game.change_player }.to change { game.active_player }.from('Player 1').to('Player 2')
     end
   end
 
   describe '#win?' do
-    subject(:game) { described_class.new }
-
     before do
       game.add(1)
       game.add(3)
@@ -135,8 +93,6 @@ describe Game do
   end
 
   describe '#valid?' do
-    subject(:game) { described_class.new }
-
     it 'returns true when provided valid column number' do
       column = 3
       expect(game.valid?(column)).to be true

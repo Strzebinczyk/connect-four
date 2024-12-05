@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative 'board'
 class Game
   attr_reader :players, :board
@@ -25,8 +27,8 @@ class Game
     player = @players[active_player]
 
     # horizontal check
-    for j in 0..3 do
-      for i in 0..5 do
+    (0..3).each do |j|
+      (0..5).each do |i|
         if @board.symbol_at(i, j) == player && @board.symbol_at(i, j + 1) == player &&
            @board.symbol_at(i, j + 2) == player && @board.symbol_at(i, j + 3) == player
           return true
@@ -35,8 +37,8 @@ class Game
     end
 
     # vertical check
-    for j in 0..6 do
-      for i in 0..2 do
+    (0..6).each do |j|
+      (0..2).each do |i|
         if @board.symbol_at(i, j) == player && @board.symbol_at(i + 1, j) == player &&
            @board.symbol_at(i + 2, j) == player && @board.symbol_at(i + 3, j) == player
           return true
@@ -45,8 +47,8 @@ class Game
     end
 
     # ascending diagonal check
-    for j in 0..3 do
-      for i in 3..5 do
+    (0..3).each do |j|
+      (3..5).each do |i|
         if @board.symbol_at(i, j) == player && @board.symbol_at(i - 1, j + 1) == player &&
            @board.symbol_at(i - 2, j + 2) == player && @board.symbol_at(i - 3, j + 3) == player
           return true
@@ -55,8 +57,8 @@ class Game
     end
 
     # descending diagonal check
-    for j in 3..6 do
-      for i in 3..5 do
+    (3..6).each do |j|
+      (3..5).each do |i|
         if @board.symbol_at(i, j) == player && @board.symbol_at(i - 1, j - 1) == player &&
            @board.symbol_at(i - 2, j - 2) == player && @board.symbol_at(i - 3, j - 3) == player
           return true

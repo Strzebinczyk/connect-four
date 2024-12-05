@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative '../lib/game'
 
 describe Game do
@@ -12,6 +14,7 @@ describe Game do
       expected = game.board.positions[5][column]
       expect(expected).to eql symbol
     end
+
     it 'adds the second coin on top of last one' do
       game.add(column)
       game.add(column)
@@ -22,7 +25,7 @@ describe Game do
 
   describe '#change_player' do
     it 'changes active player' do
-      expect { game.change_player }.to change { game.active_player }.from('Player 1').to('Player 2')
+      expect { game.change_player }.to change(game, :active_player).from('Player 1').to('Player 2')
     end
   end
 

@@ -1,7 +1,10 @@
+# frozen_string_literal: true
+
 require_relative '../lib/board'
 
 describe Board do
   subject(:board) { described_class.new }
+
   let(:symbol) { 'X' }
   let(:column) { 3 }
 
@@ -11,6 +14,7 @@ describe Board do
       expected = board.positions[5][column]
       expect(expected).to eql symbol
     end
+
     it 'adds the second coin on top of last one' do
       board.add(column, symbol)
       board.add(column, symbol)
@@ -43,6 +47,7 @@ describe Board do
       board.add(column, symbol)
       expect(board.symbol_at(5, column)).to eql symbol
     end
+
     it 'returns nil if there is no symbol' do
       board.add(column, symbol)
       expect(board.symbol_at(0, column)).to be_nil
